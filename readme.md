@@ -14,7 +14,9 @@ LSC also provides a mechanism to review all received messages via the `replay` c
 
 Drop the `lsc` folder into your Windower4/addons directory and run `//lua r lsc`. To unload the addon, run `//lua u lsc`.
 
-The latest release is available [here](https://github.com/Kaiconure/lsc/releases/).
+LSC can be added to your `init.txt` file to have it autoloaded at startup. Add `lua load lsc` near the end of the file if you'd like it to start with Windower.
+
+**The latest release is available [here](https://github.com/Kaiconure/lsc/releases/).**
 
 ### Usage
 
@@ -39,8 +41,6 @@ Additional commands will be made available in a later version.
 - Japanese text is not properly captured. I need to do a better job of stripping out control characters while not stripping out non-ANSI text.
 
 - There are no configuration options. The chat window size and position is fixed, it won't remember if it was shown or hidden, fonts, font size, color are hard-coded, and so on. I'll prioritize and address these as we go.
-
-- I'm not entirely sure the addon can be autoloaded via init.txt. It *should* work, but let me know. I haven't had time to `/shutdown` and test on a clean load with the latest version, but I'll do that ASAP.
 
 ## Attribution
 
