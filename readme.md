@@ -14,6 +14,8 @@ LSC also provides a mechanism to review all received messages via the `replay` c
 
 Drop the `lsc` folder into your Windower4/addons directory and run `//lua r lsc`. To unload the addon, run `//lua u lsc`.
 
+The latest release is available [here](https://github.com/Kaiconure/lsc/releases/).
+
 ### Usage
 
 LSC supports a handful of commands to help you get them most out of the addon.  Commands are sent to LSC by typing `//lsc <command> <arguments>` into the FFXI chat window.
