@@ -9,7 +9,7 @@
 ---------------------------------------------------------------------
 -- This is optional information about the addon, which Windower
 -- will show in the console when loaded.
-ADDON_VERSION       = '1.0.0'
+ADDON_VERSION       = '1.0.1'
 ADDON_NAME          = 'LinkshellChat'
 ADDON_SHORT_NAME    = 'lsc'
 ADDON_AUTHOR        = 'KaiConure'

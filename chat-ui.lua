@@ -1,16 +1,16 @@
-Color.linkshell     = Color.new(255,    80,     255,    120)
-Color.linkshell2    = Color.new(255,    0,      215,    0)
-Color.party         = Color.new(255,    20,     210,    195)
-Color.tell          = Color.new(255,    200,    60,     200)
+Color.linkshell     = Color.new(255,    140,    248,   198)
+Color.linkshell2    = Color.new(255,    15,     215,    15)
+Color.party         = Color.new(255,    81,     248,    249)
+Color.tell          = Color.new(255,    253,    168,    253)
 
 local PANEL_WIDTH   = 600
 local PANEL_HEIGHT  = 400
 
-local MAX_CHARS     = 70
-local MAX_LINES     = 23
+local MAX_CHARS     = 65
+local MAX_LINES     = 22
 
 local CHAT_FONT_FAMILY   = "Consolas"
-local CHAT_FONT_SIZE     = 11
+local CHAT_FONT_SIZE     = 12
 
 
 -- ---
@@ -144,11 +144,6 @@ function ChatUI:append(mode, message)
 
         self.DataSource:addItem(item, IndexPath.new(2, count + 1))
     end
-
-    
-
-    -- self.CollectionView:updateContentView()
-    -- self.CollectionView:layoutIfNeeded()
 end
 
 function ChatUI:show()
@@ -163,6 +158,21 @@ function ChatUI:hide()
     self.CollectionView:setSize(0, 0)
     self.CollectionView:updateContentView()
     self.CollectionView:layoutIfNeeded()
+end
+
+function ChatUI:clear()
+    -- Hide while we work
+    self:hide()
+
+    -- Clear all content
+    self.DataSource:removeAllItems()
+
+    -- Re-add the heading
+    local heading = TextItem.new('Chat Log', CHAT_STYLE_HEAD)
+    self.DataSource:addItem(heading, IndexPath.new(1, 1))
+
+    -- Show the UI again
+    self:show()
 end
 
 return ChatUI
