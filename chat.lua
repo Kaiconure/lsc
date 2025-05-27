@@ -140,6 +140,20 @@ Chat.commands['replay'] = function(self, ...)
     end
 end
 
+Chat.commands['clear'] = function(self, ...)
+    local args = {...}
+    local chat = arrayIndexOf(args, '-display') or arrayIndexOf(args, '-d')
+
+    if self.log then
+        self.log:clear()
+        writeMessage('Chat log has been cleared!')
+    end
+    if chat and self.ui then
+        self.ui:clear()
+        writeMessage('Chat display has been cleared!')
+    end
+end
+
 Chat.commands['help'] = function(self, ...)
     local args = {...}
     

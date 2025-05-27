@@ -52,4 +52,14 @@ function ChatLog:append(mode, message)
     return entry
 end
 
+function ChatLog:clear()
+    self.events = {
+        all = {},
+        party = {},
+        linkshell = {},
+        linkshell2 = {},
+        tell = {}
+    }
+end
+
 return ChatLog
