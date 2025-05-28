@@ -11,8 +11,11 @@ local ChatLog = {
 
 ChatLog.__index = ChatLog
 
-function ChatLog.new()
+function ChatLog.new(settings)
     local self = setmetatable({}, ChatLog)
+
+    self.settings = settings
+    
     return self
 end
 
