@@ -42,11 +42,36 @@ LSC supports a handful of commands to help you get them most out of the addon.  
 
 Additional commands will be made available in a later version.
 
+### Tips and Tricks
+
+#### Absolute Positioning
+
+LSC uses anchors and margins rather than direct (x, y) positioning. The main reason for this is portability. For example, anchoring to the bottom-right (SE) corner will continue to function regardless of window size.
+
+That said, sometimes you just want to set a position directly. You *can* actually get this level of control by anchoring to the top-right (NW) corner. By doing so, margins become equivalent to screen space coordinates and you can have your way with absolute positioning.
+
+To position the window at (100, 300) on the screen, you'd start with setting the anchor:
+
+```bash
+//lsc anchor ne
+```
+
+And then you'd set the margins (which, again, are the same as screen space coordinates when anchored to ne):
+
+```bash
+//lsc margin 100 300
+```
+
+And there you have it!
+
 ### Known Issues
 
 - Japanese text is not properly captured. I need to do a better job of stripping out control characters while not stripping out non-ANSI text.
 
-- There are no configuration options. The chat window size and position is fixed, it won't remember if it was shown or hidden, fonts, font size, color are hard-coded, and so on. I'll prioritize and address these as we go.
+- Configuration options are limited. The only items currently saved are the chat window anchor and margins.
+
+- The chat window cannot be resized at this time. This introduces complexity in terms of what can fit into the window, how to re-layout text already being shown, and so on. I need time to think about this, and to implement it in a reasonable way.
+
 
 ## Attribution
 
