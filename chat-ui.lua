@@ -38,8 +38,43 @@ local CHAT_STYLE_TELL       = TextStyle.new(Color.clear, Color.clear, CHAT_FONT_
 local ChatUI = {}
 ChatUI.__index = ChatUI
 
-function ChatUI.new()
+local function _setPositioning(self)
+    local info = windower.get_windower_settings()
+
+    self.CollectionView:setSize(self.settings.w, self.settings.h)
+
+    if
+        self.settings.anchor ~= 'sw'and
+        self.settings.anchor ~= 'nw' and
+        self.settings.anchor ~= 'ne' and
+        self.settings.anchor ~= 'se'
+    then
+        self.settings.anchor = 'se'
+    end
+
+    local info = windower.get_windower_settings()
+    local x, y
+
+    if self.settings.anchor == 'sw' or self.settings.anchor == 'nw' then
+        x = self.settings.mh
+    else
+        x = info.ui_x_res - self.settings.w - self.settings.mh
+    end
+
+    if self.settings.anchor == 'nw' or self.settings.anchor == 'ne' then
+        y = self.settings.mv
+    else
+        y = info.ui_y_res - self.settings.h - self.settings.mv
+    end
+
+    self.CollectionView:setSize(self.settings.w, self.settings.h)
+    self.CollectionView:setPosition(x, y)
+end
+
+function ChatUI.new(settings)
     local self = setmetatable({}, ChatUI)
+
+    self.settings = settings
 
     self.DataSource = CollectionViewDataSource.new(
         function(item)
@@ -148,9 +183,7 @@ end
 
 function ChatUI:show()
     self.CollectionView:setVisible(true)
-    self.CollectionView:setSize(PANEL_WIDTH, PANEL_HEIGHT)
-    self.CollectionView:updateContentView()
-    self.CollectionView:layoutIfNeeded()
+    self:resizeFromSettings()
 end
 
 function ChatUI:hide()
@@ -173,6 +206,12 @@ function ChatUI:clear()
 
     -- Show the UI again
     self:show()
+end
+
+function ChatUI:resizeFromSettings()
+    _setPositioning(self)
+    self.CollectionView:updateContentView()
+    self.CollectionView:layoutIfNeeded()
 end
 
 return ChatUI

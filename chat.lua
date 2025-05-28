@@ -1,6 +1,10 @@
-
-
-
+local default_settings = {
+    anchor = "se",
+    w = 600,    -- Width
+    h = 400,    -- Height
+    mh = 0,     -- Horizontal margin
+    mv = 200,   -- Vertical margin
+}
 
 ChatModes = {
     SelfParty = 5,
@@ -35,6 +39,7 @@ Chat = {
     commands = {},
     ui = nil,
     log = nil,
+    settings = config.load('data\\settings.xml',default_settings),
     type_mappings = {
         ['linkshell'] = 'linkshell',
         ['l'] = 'linkshell',
@@ -55,8 +60,8 @@ Chat = {
 function Chat:init()
     local player = windower.ffxi.get_player()
     if player then
-        self.ui     = self.ui or ChatUI.new()
-        self.log    = self.log or ChatLog.new()
+        self.ui     = self.ui or ChatUI.new(self.settings)
+        self.log    = self.log or ChatLog.new(self.settings)
     end
 end
 
@@ -154,12 +159,61 @@ Chat.commands['clear'] = function(self, ...)
     end
 end
 
+Chat.commands['anchor'] = function(self, ...)
+    local args = {...}
+    local anchor = string.lower(args[1] or '')
+    if anchor == 'sw' or anchor == 'nw' or anchor == 'ne' or anchor == 'se' then
+        self.settings.anchor = anchor
+        if self.ui then
+            self.ui:resizeFromSettings()
+        end
+
+        config.save(self.settings)
+    else
+        writeMessage('Current anchor: %s':format(
+            colorize(2, self.settings.anchor)
+        ))
+    end
+
+    
+end
+
+Chat.commands['margin'] = function(self, ...)
+    local args = {...}
+
+    local mh = tonumber(args[1])
+    if mh == nil then
+        writeMessage('Current margins: %s %s':format(
+            colorize(2, self.settings.mh),
+            colorize(2, self.settings.mv)
+        ))
+        return
+    end
+
+    self.settings.mh = mh
+    self.settings.mv = tonumber(args[2]) or self.settings.mv
+
+    if self.ui then        
+        self.ui:resizeFromSettings()
+    end
+
+    config.save(self.settings)
+end
+
 Chat.commands['help'] = function(self, ...)
     local args = {...}
     
     writeColoredMessage(2, 'Welcome to %s v%s':format(ADDON_NAME, ADDON_VERSION))
     writeMessage(' %s Shows the recent chats overlay.':format(colorize(6, 'show')))
     writeMessage(' %s Hides the recent chats overlay.':format(colorize(6, 'hide')))
+    writeMessage(' %s %s':format(colorize(6, 'anchor'), colorize(70, '<nw|ne|se|sw>')))
+    writeMessage('   Sets the UI anchor point to the specified cardinal corner (northwest,')
+    writeMessage('   northeast, etc). Shows the current anchor if none is specified.')
+    writeMessage(' %s %s':format(colorize(6, 'margin'), colorize(70, '[<horizontal> <vertical>]')))
+    writeMessage('   Sets the horizontal and vertical margins for the chat UI. If no arguments')
+    writeMessage('   are provded, the current margins are shown.')
+    writeMessage(' %s %s':format(colorize(6, 'clear'), colorize(70, '[-display|-d]')))
+    writeMessage('   Clears the tracked text log. Clear the displayed log as well with -display.')
     writeMessage(' %s %s':format(colorize(6, 'replay'), colorize(70, '[-type <all|l|l2|p|t>] [-max <count>]')))
     writeMessage('   Replays the most recent <count> messages of the specified type.')
     writeMessage('   Type can be all, l(linkshell), l2(linkshell2), p(party) or t(tell).')
