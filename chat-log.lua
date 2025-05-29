@@ -55,6 +55,10 @@ function ChatLog:append(mode, message)
     return entry
 end
 
+function ChatLog:getEvents()
+    return self.events
+end
+
 function ChatLog:clear()
     self.events = {
         all = {},

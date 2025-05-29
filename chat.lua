@@ -200,6 +200,42 @@ Chat.commands['margin'] = function(self, ...)
     config.save(self.settings)
 end
 
+Chat.commands['size'] = function(self, ...)
+    local args = {...}
+
+    local w = tonumber(args[1])
+    if w == nil then
+        writeMessage('Current size: %s %s':format(
+            colorize(2, self.settings.w),
+            colorize(2, self.settings.h)
+        ))
+        return
+    end
+
+    self.settings.w = w
+    self.settings.h = tonumber(args[2]) or self.settings.h
+
+    if self.ui and self.log then
+        -- For resizes, we'll actually need to force a re-do of the text already displayed
+        -- in the UI window. To do this, we'll clear all existing text, perform the resize,
+        -- and then re-add as many lines as we think will fit in the new layout.
+        self.ui:clear()
+        self.ui:resizeFromSettings()
+
+        -- Grab tracked log events, and figure out where we should start
+        local events = self.log:getEvents()
+        local start = math.max(1, #events.all - self.ui.maxLines)
+
+        -- Append the calculated number of entries back into the UI log
+        for i = start, #events.all do
+            local event = events.all[i]
+            self.ui:append(event.mode, event.message, event.time)
+        end
+    end
+
+    config.save(self.settings)
+end
+
 Chat.commands['help'] = function(self, ...)
     local args = {...}
     
@@ -212,6 +248,8 @@ Chat.commands['help'] = function(self, ...)
     writeMessage(' %s %s':format(colorize(6, 'margin'), colorize(70, '[<horizontal> <vertical>]')))
     writeMessage('   Sets the horizontal and vertical margins for the chat UI. If no arguments')
     writeMessage('   are provded, the current margins are shown.')
+    writeMessage(' %s %s':format(colorize(6, 'size'), colorize(70, '<width> <height>')))
+    writeMessage('   Sets the UI width and height, with a minimum of 300 by 200.')    
     writeMessage(' %s %s':format(colorize(6, 'clear'), colorize(70, '[-display|-d]')))
     writeMessage('   Clears the tracked text log. Clear the displayed log as well with -display.')
     writeMessage(' %s %s':format(colorize(6, 'replay'), colorize(70, '[-type <all|l|l2|p|t>] [-max <count>]')))
