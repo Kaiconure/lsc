@@ -1,6 +1,6 @@
 # LSC: A Personal Chat Monitor for Windower4 and FFXI
 
-### Overview
+## Overview
 
 LSC (short for "linkshell chat") was originally created out of a desire to know what's been happening in LS while afk. This eventually expanded to cover the other main social chat types: linkshell, linkshell2, party, and tell.
 
@@ -10,7 +10,7 @@ LSC will show the most recent 20 or so lines of chat from all tracked modes in a
 
 LSC also provides a mechanism to review all received messages via the `replay` command (see below), so you'll never miss anything.
 
-### Installation
+## Installation
 
 Drop the `lsc` folder into your Windower4/addons directory and run `//lua r lsc`. To unload the addon, run `//lua u lsc`.
 
@@ -18,7 +18,7 @@ LSC can be added to your `init.txt` file to have it autoloaded at startup. Add `
 
 **The latest release is available [here](https://github.com/Kaiconure/lsc/releases/).**
 
-### Usage
+## Usage
 
 LSC supports a handful of commands to help you get them most out of the addon.  Commands are sent to LSC by typing `//lsc <command> <arguments>` into the FFXI chat window.
 
@@ -30,9 +30,9 @@ LSC supports a handful of commands to help you get them most out of the addon.  
 
 - <mark>NEW</mark> **margin** [h v] - Set the horizontal and vertical margins for the UI chat log. This controls its distance from the anchor point. The default values can be set with `//lsc margin 0 200`.
 
-- <mark>NEW</mark> **size** [w h] - Sets the width and height of the UI chat log. There's no upper limit, with the width must be at least 300 pixels and the height at least 200 pixels. The default values can be set with `//lsc size 600 400`.
+- <mark>NEW</mark> **size** [w h] - Sets the width and height of the UI chat log. There's no upper limit, thoughthe width must be at least 300 pixels and the height at least 200 pixels. The default values can be set with `//lsc size 600 400`.
 
-- **replay** [-type all|linkshell|linkshell2|party|tell>] [-max &lt;number&gt;] - Writes chat history out to the FFXI chat window for review.
+- **replay** [-type <all|linkshell|linkshell2|party|tell>] [-max &lt;number&gt;] - Writes chat history out to the FFXI chat window for review.
 
 - - **type** - Used to control the types of messages to list. If not specified, `all` is used. Shortcuts are support: `l` or `ls` for `linkshell`, `l2` or `ls2` for `linkshell2`, `p` for party, and `t` for tell.
   
@@ -44,7 +44,7 @@ LSC supports a handful of commands to help you get them most out of the addon.  
 
 Additional commands will be made available in a later version.
 
-### Tips and Tricks
+## Tips and Tricks
 
 #### Absolute Positioning
 
@@ -66,13 +66,9 @@ And then you'd set the margins (which, again, are the same as screen space coord
 
 And there you have it!
 
-### Known Issues
+## Known Issues
 
-- Japanese text is not properly captured. I need to do a better job of stripping out control characters while not stripping out non-ANSI text.
-
-- Configuration options are limited. The only items currently saved are the chat window anchor and margins.
-
-- The chat window cannot be resized at this time. This introduces complexity in terms of what can fit into the window, how to re-layout text already being shown, and so on. I need time to think about this, and to implement it in a reasonable way.
+Open issues are now tracked via [GitHub](https://github.com/Kaiconure/lsc/issues).
 
 
 ## Attribution
