@@ -30,6 +30,8 @@ LSC supports a handful of commands to help you get them most out of the addon.  
 
 - <mark>NEW</mark> **margin** [h v] - Set the horizontal and vertical margins for the UI chat log. This controls its distance from the anchor point. The default values can be set with `//lsc margin 0 200`.
 
+- <mark>NEW</mark> **size** [w h] - Sets the width and height of the UI chat log. There's no upper limit, with the width must be at least 300 pixels and the height at least 200 pixels. The default values can be set with `//lsc size 600 400`.
+
 - **replay** [-type all|linkshell|linkshell2|party|tell>] [-max &lt;number&gt;] - Writes chat history out to the FFXI chat window for review.
 
 - - **type** - Used to control the types of messages to list. If not specified, `all` is used. Shortcuts are support: `l` or `ls` for `linkshell`, `l2` or `ls2` for `linkshell2`, `p` for party, and `t` for tell.
