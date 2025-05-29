@@ -6,8 +6,8 @@ Color.tell          = Color.new(255,    253,    168,    253)
 local PANEL_WIDTH   = 600
 local PANEL_HEIGHT  = 400
 
-local MAX_CHARS     = 65
-local MAX_LINES     = 22
+-- local MAX_CHARS     = 65
+-- local MAX_LINES     = 22
 
 local CHAT_FONT_FAMILY   = "Consolas"
 local CHAT_FONT_SIZE     = 12
@@ -41,6 +41,10 @@ ChatUI.__index = ChatUI
 local function _setPositioning(self)
     local info = windower.get_windower_settings()
 
+    -- We won't let the window get smaller than 300x200
+    self.settings.w = math.max(self.settings.w, 300)
+    self.settings.h = math.max(self.settings.h, 200)
+
     self.CollectionView:setSize(self.settings.w, self.settings.h)
 
     if
@@ -67,6 +71,9 @@ local function _setPositioning(self)
         y = info.ui_y_res - self.settings.h - self.settings.mv
     end
 
+    self.maxLines = math.floor(self.settings.h / 17) - 1
+    self.maxChars = math.floor(self.settings.w / 9) - 1
+
     self.CollectionView:setSize(self.settings.w, self.settings.h)
     self.CollectionView:setPosition(x, y)
 end
@@ -86,24 +93,17 @@ function ChatUI.new(settings)
     self.Layout = VerticalFlowLayout.new(0, Padding.new(4, 4, 0, 0), 0)
     self.CollectionView = CollectionView.new(self.DataSource, self.Layout)
 
-    local info = windower.get_windower_settings()
-
-    self.CollectionView:setSize(PANEL_WIDTH, PANEL_HEIGHT)
-    self.CollectionView:setPosition(info.ui_x_res - PANEL_WIDTH, info.ui_y_res - PANEL_HEIGHT - 200)
     self.CollectionView:setBackgroundColor(Color.black:withAlpha(192))
-
-    self.CollectionView:updateContentView()
-    self.CollectionView:layoutIfNeeded()
 
     local heading = TextItem.new('Chat Log', CHAT_STYLE_HEAD)
     self.DataSource:addItem(heading, IndexPath.new(1, 1))
 
+    self:resizeFromSettings()
+
     return self
 end
 
-function ChatUI:append(mode, message)
-    
-
+function ChatUI:append(mode, message, timestamp)
     local style = CHAT_STYLE_DEFAULT
     if mode == ChatModes.SelfParty or mode == ChatModes.OtherParty then
         style = CHAT_STYLE_PARTY
@@ -115,20 +115,20 @@ function ChatUI:append(mode, message)
         style = CHAT_STYLE_LS2
     end
 
-    message = '[%s] ':format(os.date('%H:%M:%S')) .. message
+    message = '[%s] ':format(timestamp or os.date('%H:%M:%S')) .. message
 
     local full_message = message
     local texts = {}
 
     -- Break up the text into lines that will fit horizontally in the window
     local hasBreaks = false
-    if #message > MAX_CHARS then
-        while #message > MAX_CHARS do
-            local location = MAX_CHARS
+    if #message > self.maxChars then
+        while #message > self.maxChars do
+            local location = self.maxChars
             local found = false
 
             -- Look back from the end to try and find a suitable break point
-            while location > 0 and location > (MAX_CHARS - 30) do
+            while location > 0 and location > (self.maxChars - 30) do
                 if string.match(message[location], '[%s%p]') then
                     found = true
                     break
@@ -165,7 +165,7 @@ function ChatUI:append(mode, message)
     local num_lines_added = #texts
     while 
         num_lines_ui > 0 and
-        (num_lines_ui + num_lines_added) > MAX_LINES 
+        (num_lines_ui + num_lines_added) > self.maxLines 
     do
         self.DataSource:removeItem(IndexPath.new(2, 1))
         num_lines_ui = self.DataSource:numberOfItemsInSection(2)
@@ -210,6 +210,7 @@ end
 
 function ChatUI:resizeFromSettings()
     _setPositioning(self)
+
     self.CollectionView:updateContentView()
     self.CollectionView:layoutIfNeeded()
 end
