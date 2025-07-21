@@ -6,7 +6,7 @@ LSC (short for "linkshell chat") was originally created out of a desire to know 
 
 LSC will show the most recent 20 or so lines of chat from all tracked modes in a panel on the lower-right section of your screen. This window can be hidden (see the `hide` command under usage below), in which case messages will still be tracked for later review.
 
-<img title="" src="./content/sample.png" alt="dsaf" width="507" data-align="center">
+<img title="" src="./content/sample.png" alt="Sample" width="507" data-align="center">
 
 LSC also provides a mechanism to review all received messages via the `replay` command (see below), so you'll never miss anything.
 
@@ -41,6 +41,11 @@ LSC supports a handful of commands to help you get them most out of the addon.  
 - **clear** [-display|-d] - Clears the chat log (that is, what's shown when running `//lsc replay` and its variants). If you specify the `-display` (or `-d` shortcut), then the on-screen chat display will also be cleared.
 
 - **help** - Shows an in-game variation of these help notes.
+
+LSC allows you to get creative with your screen layout.
+
+<img title="" src="./content/layout_sample.jpg" alt="Layout Sample" width="800" data-align="center">
+
 
 Additional commands will be made available in a later version.
 
