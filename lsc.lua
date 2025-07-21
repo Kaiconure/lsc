@@ -41,6 +41,13 @@ require('chat')
 
 function addon_onLoad()
     Chat:init()
+
+    local player = windower.ffxi.get_player()
+    if player then
+        Chat.commands.show(Chat)
+    else
+        Chat.commands.hide(Chat)
+    end
 end
 
 function addon_onUnload()
@@ -49,17 +56,18 @@ end
 
 function addon_onLogin(name)
     Chat:init()
+    Chat.commands.show(Chat)
 end
 
 function addon_onLogout(name)
-    return
+    Chat.commands.hide(Chat)
 end
 
 function addon_onAddonCommand(command, ...)
     if Chat.commands[command] then
         Chat.commands[command](Chat, ...)
     else
-        Chat.commands:help()
+        Chat.commands.help(Chat, ...)
     end
 end
 
