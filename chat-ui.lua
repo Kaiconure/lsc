@@ -10,7 +10,7 @@ local PANEL_HEIGHT  = 400
 -- local MAX_LINES     = 22
 
 local CHAT_FONT_FAMILY   = "Consolas"
-local CHAT_FONT_SIZE     = 12
+local CHAT_FONT_SIZE     = 11
 
 
 -- ---
@@ -71,8 +71,8 @@ local function _setPositioning(self)
         y = info.ui_y_res - self.settings.h - self.settings.mv
     end
 
-    self.maxLines = math.floor(self.settings.h / 17) - 1
-    self.maxChars = math.floor(self.settings.w / 9) - 1
+    self.maxLines = math.floor(self.settings.h / (CHAT_FONT_SIZE + 5)) - 1
+    self.maxChars = math.floor(self.settings.w / (CHAT_FONT_SIZE - 2.75)) - 1
 
     self.CollectionView:setSize(self.settings.w, self.settings.h)
     self.CollectionView:setPosition(x, y)

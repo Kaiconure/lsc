@@ -181,13 +181,18 @@ end
 Chat.commands['margin'] = function(self, ...)
     local args = {...}
 
-    local mh = tonumber(args[1])
-    if mh == nil then
-        writeMessage('Current margins: %s %s':format(
-            colorize(2, self.settings.mh),
-            colorize(2, self.settings.mv)
-        ))
-        return
+    local mh = args[1]
+    if mh == '-' then
+        mh = self.settings.mh
+    else
+        mh = tonumber(args[1])
+        if mh == nil then
+            writeMessage('Current margins: %s %s':format(
+                colorize(2, self.settings.mh),
+                colorize(2, self.settings.mv)
+            ))
+            return
+        end
     end
 
     self.settings.mh = mh
@@ -203,14 +208,19 @@ end
 Chat.commands['size'] = function(self, ...)
     local args = {...}
 
-    local w = tonumber(args[1])
-    if w == nil then
-        writeMessage('Current size: %s %s':format(
-            colorize(2, self.settings.w),
-            colorize(2, self.settings.h)
-        ))
-        return
-    end
+    local w = args[1]
+    if w == '-' then
+        w = self.settings.w
+    else
+        w = tonumber(args[1])
+        if w == nil then
+            writeMessage('Current size: %s %s':format(
+                colorize(2, self.settings.w),
+                colorize(2, self.settings.h)
+            ))
+            return
+        end
+    end    
 
     self.settings.w = w
     self.settings.h = tonumber(args[2]) or self.settings.h
